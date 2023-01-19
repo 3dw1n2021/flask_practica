@@ -18,3 +18,6 @@ with app.app_context():
     db.session.commit()
     print(Usuario.query.all())
     print(Usuario.query.all()[0].albumes)
+    db.session.delete(u)
+    print(Usuario.query.all())
+    print(Album.query.all())
