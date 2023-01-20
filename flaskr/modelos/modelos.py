@@ -44,6 +44,13 @@ class EnumADiccionario(fields.Field):
             return None
         return {"llave": value.name, "valor": value.value}
 
+class AlbumSchema(SQLAlchemyAutoSchema):
+    medio = EnumADiccionario(attribute=("medio"))
+    class Meta:
+         model = Album
+         include_relationships = True
+         load_instance = True
+
 class CancionSchema(SQLAlchemyAutoSchema):
     class Meta:
          model = Cancion
