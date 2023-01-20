@@ -1,5 +1,5 @@
 from flaskr import create_app
-from .modelos import db, Cancion, Usuario, Album, enum
+from .modelos import db, Cancion, Usuario, Album, enum, CancionSchema
 
 app = create_app('default')
 app_context = app.app_context()
