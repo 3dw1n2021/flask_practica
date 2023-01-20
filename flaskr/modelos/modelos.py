@@ -36,3 +36,9 @@ class Usuario(db.Model):
     nombre = db.Column(db.String(50))
     contrasena = db.Column(db.String(50))
     albumes = db.relationship('Album', cascade='all, delete, delete-orphan')
+
+class CancionSchema(SQLAlchemyAutoSchema):
+    class Meta:
+         model = Cancion
+         include_relationships = True
+         load_instance = True
