@@ -103,3 +103,16 @@ class VistaAlbum(Resource):
         db.session.delete(album)
         db.session.commit()
         return '',204
+
+class VistaCancionesAlbum(Resource):
+
+    def post(self, id_album):
+        album = Album.query.get_or_404(id_album)
+        nueva_cancion = Cancion(titulo=request.json["titulo"], minutos=request.json["minutos"], segundos=request.json["segundos"], interprete=request.json["interprete"])
+        album.canciones.append(nueva_cancion)
+        db.session.commit()
+        return cancion_schema.dump(nueva_cancion)
+       
+    def get(self, id_album):
+        album = Album.query.get_or_404(id_album)
+        return [cancion_schema.dump(ca) for ca in album.canciones]
