@@ -2,7 +2,7 @@ from flask import request
 from ..modelos import db, Cancion, CancionSchema
 from flask_restful import Resource
 
-Cancion_schema = CancionSchema()
+cancion_schema = CancionSchema()
 
 class VistaCanciones(Resource):
 
@@ -13,4 +13,7 @@ class VistaCanciones(Resource):
                                 interprete = request.json['interprete'])
         db.session.add(nueva_cancion)
         db.session.commit()
-        return Cancion_schema.dump(nueva_cancion)
+        return cancion_schema.dump(nueva_cancion)
+
+    def get(self):
+        return [cancion_schema.dump(ca) for ca in Cancion.query.all()]
