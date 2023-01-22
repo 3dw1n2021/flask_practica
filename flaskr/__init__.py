@@ -5,4 +5,5 @@ def create_app(config_name):
     # Crear template de BBDD
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///practica.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # desactiva warnings
+    app.config['FLASK_RUN_PORT'] = 5000
     return app
