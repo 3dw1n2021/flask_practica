@@ -49,3 +49,14 @@ class VistaSignIn(Resource):
         db.session.commit()
         return usuario_schema.dump(nuevo_usuario)
 
+    def put(self, id_usuario):
+        usuario = Usuario.query.get_or_404(id_usuario)
+        usuario.contrasena = request.json.get("contrasena",usuario.contrasena)
+        db.session.commit()
+        return usuario_schema.dump(usuario)
+
+    def delete(self, id_usuario):
+        usuario = Usuario.query.get_or_404(id_usuario)
+        db.session.delete(usuario)
+        db.session.commit()
+        return '', 204
