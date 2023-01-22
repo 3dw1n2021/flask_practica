@@ -1,8 +1,9 @@
 from flask import request
-from ..modelos import db, Cancion, CancionSchema
+from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema
 from flask_restful import Resource
 
 cancion_schema = CancionSchema()
+usuario_schema = UsuarioSchema()
 
 class VistaCanciones(Resource):
 
@@ -38,3 +39,13 @@ class VistaCancion(Resource):
         db.session.delete(cancion)
         db.session.commit()
         return '', 204
+
+class VistaSignIn(Resource):
+
+    def post(self):
+        nuevo_usuario = Usuario(nombre = request.json["nombre"], 
+                                contrasena = request.json["contrasena"])
+        db.session.add(nuevo_usuario)
+        db.session.commit()
+        return usuario_schema.dump(nuevo_usuario)
+
