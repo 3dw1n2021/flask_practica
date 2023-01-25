@@ -125,6 +125,7 @@ class VistaLogIn(Resource):
             u_contrasena = request.json["contrasena"]
             usuario = Usuario.query.filter_by(nombre=u_nombre, contrasena = u_contrasena).all()
             if usuario:
+                registrar_log.delay(u_nombre, datetime.utcnow())
                 return {'mensaje':'Inicio de sesión exitoso'}, 200
             else:
                 return {'mensaje':'Nombre de usuario o contraseña incorrectos'}, 401
