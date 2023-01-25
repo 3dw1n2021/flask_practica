@@ -118,3 +118,14 @@ class VistaCancionesAlbum(Resource):
     def get(self, id_album):
         album = Album.query.get_or_404(id_album)
         return [cancion_schema.dump(ca) for ca in album.canciones]
+
+class VistaLogIn(Resource):
+    def post(self):
+            u_nombre = request.json["nombre"]
+            u_contrasena = request.json["contrasena"]
+            usuario = Usuario.query.filter_by(nombre=u_nombre, contrasena = u_contrasena).all()
+            if usuario:
+                return {'mensaje':'Inicio de sesión exitoso'}, 200
+            else:
+                return {'mensaje':'Nombre de usuario o contraseña incorrectos'}, 401
+

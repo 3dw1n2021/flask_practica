@@ -1,7 +1,7 @@
 from flaskr import create_app
 from flask_restful import Api
 from .modelos import db, Cancion, Usuario, Album, enum, CancionSchema
-from .vistas import VistaCanciones, VistaCancion, VistaSignIn, VistaAlbumsUsuario, VistaAlbum,VistaCancionesAlbum
+from .vistas import VistaCanciones, VistaCancion, VistaSignIn, VistaAlbumsUsuario, VistaAlbum,VistaCancionesAlbum, VistaLogIn
 
 app = create_app('default')
 app_context = app.app_context()
@@ -19,3 +19,4 @@ api.add_resource(VistaSignIn, '/signin')
 api.add_resource(VistaAlbumsUsuario, '/usuario/<int:id_usuario>/albumes')
 api.add_resource(VistaAlbum, '/album/<int:id_album>')
 api.add_resource(VistaCancionesAlbum, '/album/<int:id_album>/canciones')
+api.add_resource(VistaLogIn, '/login')
