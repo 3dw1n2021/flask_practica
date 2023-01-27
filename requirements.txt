@@ -7,3 +7,6 @@ marshmallow-sqlalchemy==0.25.0
 Flask-RESTful==0.3.9
 celery
 redis
+requests
+itsdangerous==2.0.1
+Werkzeug==2.0.1
