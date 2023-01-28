@@ -44,11 +44,11 @@ class VistaCancion(Resource):
 class VistaSignIn(Resource):
 
     def post(self):
-        nuevo_usuario = Usuario(nombre = request.json["nombre"], 
-                                contrasena = request.json["contrasena"])
+        nuevo_usuario = Usuario(nombre=request.json["nombre"],
+         contrasena=request.json["contrasena"])
         db.session.add(nuevo_usuario)
         db.session.commit()
-        return usuario_schema.dump(nuevo_usuario)
+        return 'Usuario creado exitosamente', 201
 
     def put(self, id_usuario):
         usuario = Usuario.query.get_or_404(id_usuario)
