@@ -1,0 +1,4 @@
+redis-server
+celery -A flaskr.tareas.tareas worker -l info  
+celery -A flaskr.tareas.tareas worker --pool=solo -l info  <---- para Windows
+flask run
