@@ -2,6 +2,14 @@ from flask import request
 from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
+from datetime import datetime
+from celery import Celery
+
+celery_app = Celery('tasks', broker='redis://localhost:6379/0')
+
+@celery_app.task(name='registrar_log')
+def registrar_log(*args):
+    pass
 
 cancion_schema = CancionSchema()
 usuario_schema = UsuarioSchema()
@@ -44,11 +52,11 @@ class VistaCancion(Resource):
 class VistaSignIn(Resource):
 
     def post(self):
-        nuevo_usuario = Usuario(nombre = request.json["nombre"], 
-                                contrasena = request.json["contrasena"])
+        nuevo_usuario = Usuario(nombre=request.json["nombre"],
+         contrasena=request.json["contrasena"])
         db.session.add(nuevo_usuario)
         db.session.commit()
-        return usuario_schema.dump(nuevo_usuario)
+        return 'Usuario creado exitosamente', 201
 
     def put(self, id_usuario):
         usuario = Usuario.query.get_or_404(id_usuario)
@@ -116,3 +124,15 @@ class VistaCancionesAlbum(Resource):
     def get(self, id_album):
         album = Album.query.get_or_404(id_album)
         return [cancion_schema.dump(ca) for ca in album.canciones]
+
+class VistaLogIn(Resource):
+    def post(self):
+            u_nombre = request.json["nombre"]
+            u_contrasena = request.json["contrasena"]
+            usuario = Usuario.query.filter_by(nombre=u_nombre, contrasena = u_contrasena).all()
+            if usuario:
+                args = (u_nombre, datetime.utcnow())
+                registrar_log.apply_async(args = args, queue = 'logs')
+                return {'mensaje':'Inicio de sesión exitoso'}, 200
+            else:
+                return {'mensaje':'Nombre de usuario o contraseña incorrectos'}, 401

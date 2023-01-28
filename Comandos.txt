@@ -1,0 +1,13 @@
+redis-server
+celery -A flaskr.tareas.tareas worker -l info  
+celery -A flaskr.tareas.tareas worker --pool=solo -l info  <---- para Windows
+flask run
+
+En .../flask_practica/tareas
+celery -A tareas worker -l info -Q logs
+celery -A tareas worker --pool=solo -l info -Q logs <---- para Windows
+
+En 
+<---- para Windows
+En .../flask_practica/flaskr           ----->     flask run -p 5000
+En .../flask_practica/microservicio_1  ----->     flask run -p 5001
