@@ -2,3 +2,7 @@ redis-server
 celery -A flaskr.tareas.tareas worker -l info  
 celery -A flaskr.tareas.tareas worker --pool=solo -l info  <---- para Windows
 flask run
+
+En .../flask_practica/tareas
+celery -A tareas worker -l info -Q logs
+celery -A tareas worker --pool=solo -l info -Q logs
